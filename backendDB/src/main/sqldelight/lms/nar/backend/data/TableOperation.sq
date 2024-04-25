@@ -1,0 +1,59 @@
+CREATE TABLE IF NOT EXISTS deleted_row (
+    id INTEGER NOT NULL PRIMARY KEY,
+    deletion_date TEXT NOT NULL,
+    row_id INTEGER NOT NULL,
+    table_name TEXT NOT NULL
+);
+
+selectAllDeletion:
+SELECT * FROM deleted_row;
+
+selectDeletionBefore:
+SELECT * FROM deleted_row WHERE deletion_date < ?;
+
+selectDeletionAfter:
+SELECT * FROM deleted_row WHERE deletion_date > ?;
+
+selectDeletionFromTable:
+SELECT * FROM deleted_row WHERE table_name = ?;
+
+selectDeletionFromTableBefore:
+SELECT * FROM deleted_row WHERE deletion_date < ? AND table_name = ?;
+
+selectDeletionFromTableAfter:
+SELECT * FROM deleted_row WHERE deletion_date > ? AND table_name = ?;
+
+deleteDeletion:
+DELETE FROM deleted_row WHERE id = ?;
+
+deleteDeletionFromTable:
+DELETE FROM deleted_row WHERE table_name = ?;
+
+CREATE TABLE IF NOT EXISTS update_table (
+    table_name TEXT NOT NULL PRIMARY KEY,
+    update_date TEXT NOT NULL
+);
+
+selectAllUpdate:
+SELECT * FROM update_table;
+
+selectUpdateBefore:
+SELECT * FROM update_table WHERE update_date < ?;
+
+selectUpdateAfter:
+SELECT * FROM update_table WHERE update_date > ?;
+
+selectUpdateFromTable:
+SELECT * FROM update_table WHERE table_name = ?;
+
+selectUpdateFromTableBefore:
+SELECT * FROM update_table WHERE update_date < ? AND table_name = ?;
+
+selectUpdateFromTableAfter:
+SELECT * FROM update_table WHERE update_date > ? AND table_name = ?;
+
+deleteUpdate:
+DELETE FROM update_table WHERE table_name = ?;
+
+deleteUpdateFromTable:
+DELETE FROM update_table WHERE table_name = ?;

@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS app_version (
+    version_number INTEGER NOT NULL PRIMARY KEY,
+    version_name TEXT NOT NULL,
+    created TEXT DEFAULT (date('now')) NOT NULL
+);
+
+selectAll:
+SELECT * FROM app_version;
+
+insertAppVersion:
+INSERT OR REPLACE INTO app_version (version_number, version_name) VALUES ?;
+
+updateAppVersion:
+UPDATE app_version
+SET version_number = ?, version_name = ?
+WHERE version_number = ?;
+
+getNextVersionCreationDate:
+SELECT created
+FROM app_version
+WHERE created > ?
+LIMIT 1;
+
+getAppVersionCreationDate:
+SELECT created
+FROM app_version
+WHERE version_name = ?
+LIMIT 1;
+

@@ -1,0 +1,38 @@
+CREATE TABLE IF NOT EXISTS card (
+    ref TEXT NOT NULL PRIMARY KEY,
+    card_type TEXT NOT NULL,
+    updated TEXT DEFAULT (date('now'))
+);
+
+insertCard:
+INSERT INTO card (ref, card_type)
+VALUES (?, ?);
+
+updateCard:
+UPDATE card
+SET ref = ?, card_type = ?, updated = (date('now'))
+WHERE ref = ?;
+
+deleteCard:
+DELETE FROM card WHERE ref = ?;
+
+updateCardType:
+UPDATE card
+SET card_type = ?, updated = (date('now'))
+WHERE ref = ?;
+
+selectAll:
+SELECT *
+FROM card;
+
+selectAllByType:
+SELECT *
+FROM card
+WHERE card_type = ?;
+
+getLastUpdatedSince:
+SELECT * FROM card
+WHERE updated >= ?;
+
+-- TRIGGERS
+

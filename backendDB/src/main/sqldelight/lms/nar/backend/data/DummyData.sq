@@ -1,0 +1,37 @@
+-- INSERT OR REPLACE INTO update_table (table_name, update_date)
+-- VALUES("ARMOR", "2024-04-09 18:15:01");
+
+INSERT OR REPLACE INTO armor (id, card_ref, reward_id, slot_type, slot_weight, updated)
+VALUES ("1", "NAR-MGS 050", "10", "HAND", "1", "2024-04-09 18:15:01");
+
+INSERT OR REPLACE INTO armor (id, card_ref, reward_id, slot_type, slot_weight, updated)
+VALUES ("2", "NAR-MGS 051", "11", "HAND", "1", "2024-04-10 18:15:01");
+
+INSERT OR REPLACE INTO armor (id, card_ref, reward_id, slot_type, slot_weight, updated)
+VALUES ("3", "NAR-MGS 051", "11", "HAND", "1", "2024-04-10 18:15:01");
+
+INSERT OR REPLACE INTO armor (id, card_ref, reward_id, slot_type, slot_weight, updated)
+VALUES ("4", "NAR-MGS 051", "11", "HAND", "1", "2024-04-10 18:15:01");
+
+INSERT OR REPLACE INTO armor (id, card_ref, reward_id, slot_type, slot_weight, updated)
+VALUES ("5", "NAR-MGS 051", "11", "HAND", "1", "2024-04-10 18:15:01");
+
+DELETE FROM armor WHERE id = 5;
+
+INSERT INTO update_table (table_name, update_date)
+VALUES("ARTIFACT", "2024-03-09 18:15:01");
+
+INSERT INTO update_table (table_name, update_date)
+VALUES("SET", "2024-05-09 18:15:01");
+
+INSERT INTO app_version (version_number, version_name, created)
+VALUES ("1", "1.0.0", "2024-04-09 18:15:01");
+
+INSERT INTO app_version (version_number, version_name, created)
+VALUES ("2", "1.1.0", "2024-05-09 18:15:01");
+
+INSERT INTO app_version (version_number, version_name, created)
+VALUES ("3", "1.2.0", "2024-06-09 18:15:01");
+
+INSERT INTO app_version (version_number, version_name, created)
+VALUES ("4", "2.0.0", "2024-07-09 18:15:01");

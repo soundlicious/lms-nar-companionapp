@@ -1,0 +1,54 @@
+CREATE TABLE IF NOT EXISTS formulae (
+    id INTEGER PRIMARY KEY,
+    card_ref TEXT NOT NULL,
+    wood INTEGER NOT NULL DEFAULT 0,
+    leather INTEGER NOT NULL DEFAULT 0,
+    belladona INTEGER NOT NULL DEFAULT 0,
+    mandrake INTEGER NOT NULL DEFAULT 0,
+    philosopher_stone INTEGER NOT NULL DEFAULT 0,
+    realgar INTEGER NOT NULL DEFAULT 0,
+    sulfur INTEGER NOT NULL DEFAULT 0,
+    mercury INTEGER NOT NULL DEFAULT 0,
+    metal INTEGER NOT NULL DEFAULT 0,
+    silver INTEGER NOT NULL DEFAULT 0,
+    gold INTEGER NOT NULL DEFAULT 0,
+    salt INTEGER NOT NULL DEFAULT 0,
+    cost INTEGER NOT NULL DEFAULT 0,
+    updated TEXT NOT NULL DEFAULT (date('now')),
+    FOREIGN KEY(card_ref) REFERENCES card(ref) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- INSERTS
+insertFormulae:
+INSERT INTO formulae (card_ref, wood, leather, belladona, mandrake, philosopher_stone, realgar, sulfur, mercury, metal, silver, gold, salt, cost)
+VALUES (?,?,?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?);
+
+insertOrReplaceFormulae:
+INSERT OR REPLACE INTO formulae (id, card_ref, wood, leather, belladona, mandrake, philosopher_stone, realgar, sulfur, mercury, metal, silver, gold, salt, cost)
+VALUES (?, ?,?,?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?);
+
+-- SELECTS
+selectPaginatedFormulae:
+SELECT * FROM formulae WHERE updated > :date LIMIT :limit OFFSET :offset;
+
+selectAllFormulae:
+SELECT * FROM formulae;
+
+selectFormulaeById:
+SELECT * FROM formulae WHERE id = ? LIMIT 1;
+
+selectFormulaeByCardRef:
+SELECT * FROM formulae WHERE card_ref = ? LIMIT 1;
+
+-- UPDATES
+updateFormulae:
+UPDATE formulae
+SET card_ref = ?, wood = ?, leather = ?, belladona = ?, mandrake = ?, philosopher_stone = ?, realgar = ?, sulfur = ?, mercury = ?, metal = ?, silver = ?, gold = ?, salt = ?, cost = ?, updated = (date('now'))
+WHERE id = ?;
+
+-- DELETE
+deleteFromFormulaeByID:
+DELETE FROM formulae WHERE id = ?;
+
+deleteFromFormulaeByCardRef:
+DELETE FROM formulae WHERE card_ref = ?;

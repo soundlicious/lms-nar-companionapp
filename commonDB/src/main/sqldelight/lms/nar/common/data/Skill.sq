@@ -1,0 +1,75 @@
+-- CREATE TABLE IF NOT EXISTS skill_translation(
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     skill_id INTEGER NOT NULL,
+--     language_code TEXT NOT NULL,
+--     name TEXT NOT NULL,
+--     description TEXT NOT NULL,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(skill_id) REFERENCES skill(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS skill (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     type TEXT NOT NULL,
+--     exp_cost INTEGER NOT NULL,
+--     updated TEXT DEFAULT (date('now'))
+-- );
+--
+-- -- SELECTS
+--
+-- selectSkill:
+-- SELECT s.id, COALESCE(st.name, st_default.name), COALESCE(st.description, st_default.description), s.type, s.exp_cost
+-- FROM skill s
+-- LEFT JOIN skill_translation st ON s.id = st.skill_id AND st.language_code = ?
+-- LEFT JOIN skill_translation st_default ON s.id = st_default.skill_id AND st_default.language_code = 'en_US';
+--
+-- selectSkillById:
+-- SELECT s.id, COALESCE(st.name, st_default.name), COALESCE(st.description, st_default.description), s.type, s.exp_cost
+-- FROM skill s
+-- LEFT JOIN skill_translation st ON s.id = st.skill_id AND st.language_code = ?
+-- LEFT JOIN skill_translation st_default ON s.id = st_default.skill_id AND st_default.language_code = 'en_US'
+-- WHERE s.id = ?;
+--
+-- selectAllFromSkillTranslation:
+-- SELECT * FROM skill_translation;
+--
+-- selectSkillTranslationById:
+-- SELECT * FROM skill_translation WHERE id = ?;
+--
+-- selectAllSkillTranslationByCardRef:
+-- SELECT * FROM skill_translation WHERE skill_id = ?;
+--
+-- -- INSERTS
+--
+-- insertSkill:
+-- INSERT INTO skill (type, exp_cost, updated)
+-- VALUES (?, ?, DATETIME('now'));
+--
+-- insertSkillTranslation:
+-- INSERT INTO skill_translation (skill_id, language_code, name, description, updated)
+-- VALUES (?, ?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+--
+-- updateSkill:
+-- UPDATE skill
+-- SET type = ?, exp_cost = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- updateSkillTranslation:
+-- UPDATE skill_translation
+-- SET name = ?, description = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- -- DELETE
+--
+-- deleteSkillById:
+-- DELETE FROM skill WHERE id = ?;
+--
+-- deleteSkillBeforeDate:
+-- DELETE FROM skill WHERE updated < ?;
+--
+-- deleteSkillAfterDate:
+-- DELETE FROM skill WHERE updated > ?;
+--
+-- -- TRIGGERS

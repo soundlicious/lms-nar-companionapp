@@ -1,0 +1,85 @@
+-- CREATE TABLE IF NOT EXISTS mission_translation (
+--     mission_id INTEGER NOT NULL,
+--     language_code TEXT NOT NULL,
+--     name TEXT NOT NULL,
+--     updated TEXT NOT NULL DEFAULT (date('now')),
+--     FOREIGN KEY(mission_id) REFERENCES mission(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS mission (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     city_id INTEGER,
+--     type TEXT NOT NULL, -- MAIN/SIDE/HUNT
+--     updated TEXT NOT NULL DEFAULT (date('now')),
+--     FOREIGN KEY(city_id) REFERENCES city(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- -- SELECTS
+--
+-- selectMission:
+-- SELECT m.id, COALESCE(mt.name, mt_default.name), m.city_id, m.type
+-- FROM mission m
+-- LEFT JOIN mission_translation mt ON m.id = mt.mission_id AND mt.language_code = ?
+-- LEFT JOIN mission_translation mt_default ON m.id = mt_default.mission_id AND mt_default.language_code = 'en_US';
+--
+-- selectMissionById:
+-- SELECT m.id, COALESCE(mt.name, mt_default.name), m.city_id, m.type
+-- FROM mission m
+-- LEFT JOIN mission_translation mt ON m.id = mt.mission_id AND mt.language_code = ?
+-- LEFT JOIN mission_translation mt_default ON m.id = mt_default.mission_id AND mt_default.language_code = 'en_US'
+-- WHERE m.id = ?;
+--
+-- selectMissionsByCityId:
+-- SELECT m.*, COALESCE(mt.name, mt_default.name) AS name
+-- FROM mission m
+-- LEFT JOIN mission_translation mt ON m.id = mt.mission_id AND mt.language_code = ?
+-- LEFT JOIN mission_translation mt_default ON m.id = mt_default.mission_id AND mt_default.language_code = 'en_US'
+-- WHERE m.city_id = ?;
+--
+--
+-- selectAllFromMissionTranslation:
+-- SELECT * FROM mission_translation;
+--
+-- selectMissionTranslationById:
+-- SELECT * FROM mission_translation WHERE mission_id = ?;
+--
+-- -- INSERTS
+--
+-- insertMission:
+-- INSERT INTO mission (city_id, type)
+-- VALUES (?, ?);
+--
+-- insertMissionTranslation:
+-- INSERT INTO mission_translation (mission_id, language_code, name, updated)
+-- VALUES (?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+--
+-- updateMission:
+-- UPDATE mission
+-- SET city_id = ?, type = ?
+-- WHERE id = ?;
+--
+-- updateMissionTranslation:
+-- UPDATE mission_translation
+-- SET name = ?, updated = DATETIME('now')
+-- WHERE mission_id = ? AND language_code = ?;
+--
+-- -- DELETE
+--
+-- deleteMissionById:
+-- DELETE FROM mission WHERE id = ?;
+--
+-- deleteMissionBeforeDate:
+-- DELETE FROM mission WHERE updated < ?;
+--
+-- deleteMissionAfterDate:
+-- DELETE FROM mission WHERE updated > ?;
+--
+-- -- TRIGGERS
+--
+--
+--
+--
+--
+--

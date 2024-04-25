@@ -1,0 +1,95 @@
+-- CREATE TABLE IF NOT EXISTS card_set_translation(
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     set_id INTEGER NOT NULL,
+--     language_code TEXT NOT NULL,
+--     name TEXT NOT NULL,
+--     description TEXT NOT NULL,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(set_id) REFERENCES card_set(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS card_set(
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     card_ref TEXT NOT NULL,
+--     activation INTEGER,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(card_ref) REFERENCES card(ref) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- -- SELECTS
+--
+-- selectCardSet:
+-- SELECT cs.id, COALESCE(cst.name, cst_default.name), COALESCE(cst.description, cst_default.description), cs.card_ref, cs.activation
+-- FROM card_set cs
+-- LEFT JOIN card_set_translation cst ON cs.id = cst.set_id AND cst.language_code = ?
+-- LEFT JOIN card_set_translation cst_default ON cs.id = cst_default.set_id AND cst_default.language_code = 'en_US';
+--
+-- selectCardSetById:
+-- SELECT cs.id, COALESCE(cst.name, cst_default.name), COALESCE(cst.description, cst_default.description), cs.card_ref, cs.activation
+-- FROM card_set cs
+-- LEFT JOIN card_set_translation cst ON cs.id = cst.set_id AND cst.language_code = ?
+-- LEFT JOIN card_set_translation cst_default ON cs.id = cst_default.set_id AND cst_default.language_code = 'en_US'
+-- WHERE cs.id = ?;
+--
+-- selectCardSetByCardRef:
+-- SELECT cs.id, COALESCE(cst.name, cst_default.name), COALESCE(cst.description, cst_default.description), cs.card_ref, cs.activation
+-- FROM card_set cs
+-- LEFT JOIN card_set_translation cst ON cs.id = cst.set_id AND cst.language_code = ?
+-- LEFT JOIN card_set_translation cst_default ON cs.id = cst_default.set_id AND cst_default.language_code = 'en_US'
+-- WHERE cs.card_ref = ?;
+--
+--
+-- selectAllFromCardSetTranslation:
+-- SELECT * FROM card_set_translation;
+--
+-- selectCardSetTranslationById:
+-- SELECT * FROM card_set_translation WHERE id = ?;
+--
+-- selectAllCardSetTranslationByCardRef:
+-- SELECT * FROM card_set_translation WHERE set_id = ?;
+--
+-- -- INSERTS
+--
+-- insertCardSet:
+-- INSERT OR REPLACE INTO card_set (id, card_ref, activation, updated)
+-- VALUES (?, ?, ?, DATETIME('now'));
+--
+-- insertCardSetTranslation:
+-- INSERT OR REPLACE INTO card_set_translation (id, set_id, language_code, name, description, updated)
+-- VALUES (?, ?, ?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+-- updateCardSet:
+-- UPDATE card_set
+-- SET card_ref = ?, activation = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- updateCardSetTranslation:
+-- UPDATE card_set_translation
+-- SET name = ?, description = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- -- DELETE
+--
+-- deleteCardSetById:
+-- DELETE FROM card_set WHERE id = ?;
+--
+-- deleteCardSetByCardRef:
+-- DELETE FROM card_set WHERE card_ref = ?;
+--
+-- deleteCardSetBeforeDate:
+-- DELETE FROM card_set WHERE updated < ?;
+--
+-- deleteCardSetAfterDate:
+-- DELETE FROM card_set WHERE updated > ?;
+--
+-- -- TRIGGERS
+--
+-- CREATE TRIGGER IF NOT EXISTS insert_card_on_card_set_creation
+--     BEFORE INSERT
+--     ON card_set
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR IGNORE INTO card(ref, card_type)
+--     VALUES (new.card_ref, 'CARD_SET');
+-- END;

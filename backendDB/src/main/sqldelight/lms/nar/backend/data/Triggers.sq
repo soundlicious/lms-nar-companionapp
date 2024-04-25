@@ -1,0 +1,570 @@
+-- Trigger for card table
+CREATE TRIGGER IF NOT EXISTS insert_card_table_trigger
+    AFTER INSERT
+    ON card
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('CARD', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS update_card_table_trigger
+    AFTER UPDATE
+    ON card
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('CARD', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS delete_card_table_trigger
+    AFTER DELETE
+    ON card
+FOR EACH ROW
+BEGIN
+    INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+    VALUES ( old.ref, 'CARD', DATETIME('now'));
+END;
+
+-- Trigger for reward table
+CREATE TRIGGER IF NOT EXISTS insert_reward_table_trigger
+    AFTER INSERT
+    ON reward
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('REWARD', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS update_reward_table_trigger
+    AFTER UPDATE
+    ON reward
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('REWARD', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS delete_reward_table_trigger
+    AFTER DELETE
+    ON reward
+FOR EACH ROW
+BEGIN
+    INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+    VALUES ( old.id, 'REWARD', DATETIME('now'));
+END;
+
+-- Trigger for armor table
+CREATE TRIGGER IF NOT EXISTS insert_armor_table_trigger
+    AFTER INSERT
+    ON armor
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('ARMOR', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS update_armor_table_trigger
+    AFTER UPDATE
+    ON armor
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('ARMOR', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS delete_armor_table_trigger
+    AFTER DELETE
+    ON armor
+FOR EACH ROW
+BEGIN
+    INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+    VALUES ( old.id, 'ARMOR', DATETIME('now'));
+END;
+
+-- Trigger for armor_translation table
+CREATE TRIGGER IF NOT EXISTS insert_armor_translation_table_trigger
+    AFTER INSERT
+    ON armor_translation
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('ARMOR_TRANSLATION', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS update_armor_translation_table_trigger
+    AFTER UPDATE
+    ON armor_translation
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('ARMOR_TRANSLATION', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS delete_armor_translation_table_trigger
+    AFTER DELETE
+    ON armor_translation
+FOR EACH ROW
+BEGIN
+    INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+    VALUES ( old.id, 'ARMOR_TRANSLATION', DATETIME('now'));
+END;
+
+-- Trigger for formulae table
+CREATE TRIGGER IF NOT EXISTS insert_formulae_table_trigger
+    AFTER INSERT
+    ON formulae
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('FORMULAE', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS update_formulae_table_trigger
+    AFTER UPDATE
+    ON formulae
+BEGIN
+    INSERT OR REPLACE INTO update_table (table_name, update_date)
+    VALUES ('FORMULAE', DATETIME('now'));
+END;
+
+CREATE TRIGGER IF NOT EXISTS delete_formulae_table_trigger
+    AFTER DELETE
+    ON formulae
+FOR EACH ROW
+BEGIN
+    INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+    VALUES ( old.id, 'FORMULAE', DATETIME('now'));
+END;
+
+-- -- Trigger for artifact table
+-- CREATE TRIGGER IF NOT EXISTS insert_artifact_table_trigger
+--     AFTER INSERT
+--     ON artifact
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('ARTIFACT', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_artifact_table_trigger
+--     AFTER UPDATE
+--     ON artifact
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('ARTIFACT', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_artifact_table_trigger
+--     AFTER DELETE
+--     ON artifact
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'ARTIFACT', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for artifact_translation table
+-- CREATE TRIGGER IF NOT EXISTS insert_artifact_translation_table_trigger
+--     AFTER INSERT
+--     ON artifact_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('ARTIFACT_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_artifact_translation_table_trigger
+--     AFTER UPDATE
+--     ON artifact_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('ARTIFACT_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_artifact_translation_table_trigger
+--     AFTER DELETE
+--     ON artifact_translation
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'ARTIFACT_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for Bond table
+-- CREATE TRIGGER IF NOT EXISTS insert_Bond_table_trigger
+--     AFTER INSERT
+--     ON Bond
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('BOND', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_Bond_table_trigger
+--     AFTER UPDATE
+--     ON Bond
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('BOND', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_Bond_table_trigger
+--     AFTER DELETE
+--     ON Bond
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('BOND', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for city table
+-- CREATE TRIGGER IF NOT EXISTS insert_city_table_trigger
+--     AFTER INSERT
+--     ON city
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('CITY', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_city_table_trigger
+--     AFTER UPDATE
+--     ON city
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('CITY', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_city_table_trigger
+--     AFTER DELETE
+--     ON city
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'CITY', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for city_translation table
+-- CREATE TRIGGER IF NOT EXISTS insert_city_translation_table_trigger
+--     AFTER INSERT
+--     ON city_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('CITY_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_city_translation_table_trigger
+--     AFTER UPDATE
+--     ON city_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('CITY_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_city_translation_table_trigger
+--     AFTER DELETE
+--     ON city_translation
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'CITY_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for city_distance table
+-- CREATE TRIGGER IF NOT EXISTS insert_city_distance_table_trigger
+--     AFTER INSERT
+--     ON city_distance
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('CITY_DISTANCE', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_city_distance_table_trigger
+--     AFTER UPDATE
+--     ON city_distance
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('CITY_DISTANCE', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_city_distance_table_trigger
+--     AFTER DELETE
+--     ON city_distance
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'CITY_DISTANCE', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for hero table
+-- CREATE TRIGGER IF NOT EXISTS insert_hero_table_trigger
+--     AFTER INSERT
+--     ON hero
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('HERO', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_hero_table_trigger
+--     AFTER UPDATE
+--     ON hero
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('HERO', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_hero_table_trigger
+--     AFTER DELETE
+--     ON hero
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'HERO', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for hero_class table
+-- CREATE TRIGGER IF NOT EXISTS insert_hero_class_table_trigger
+--     AFTER INSERT
+--     ON hero_class
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('HERO_CLASS', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_hero_class_table_trigger
+--     AFTER UPDATE
+--     ON hero_class
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('HERO_CLASS', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_hero_class_table_trigger
+--     AFTER DELETE
+--     ON hero_class
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'HERO_CLASS', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for hero_class_translation table
+-- CREATE TRIGGER IF NOT EXISTS insert_hero_class_translation_table_trigger
+--     AFTER INSERT
+--     ON hero_class_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('HERO_CLASS_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_hero_class_translation_table_trigger
+--     AFTER UPDATE
+--     ON hero_class_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('HERO_CLASS_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_hero_class_translation_table_trigger
+--     AFTER DELETE
+--     ON hero_class_translation
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'HERO_CLASS_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for injury table
+-- CREATE TRIGGER IF NOT EXISTS insert_injury_table_trigger
+--     AFTER INSERT
+--     ON injury
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('INJURY', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_injury_table_trigger
+--     AFTER UPDATE
+--     ON injury
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('INJURY', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_injury_table_trigger
+--     AFTER DELETE
+--     ON injury
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'INJURY', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for injury_translation table
+-- CREATE TRIGGER IF NOT EXISTS insert_injury_translation_table_trigger
+--     AFTER INSERT
+--     ON injury_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('INJURY_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_injury_translation_table_trigger
+--     AFTER UPDATE
+--     ON injury_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('INJURY_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_injury_translation_table_trigger
+--     AFTER DELETE
+--     ON injury_translation
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'INJURY_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for mission table
+-- CREATE TRIGGER IF NOT EXISTS insert_mission_table_trigger
+--     AFTER INSERT
+--     ON mission
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('MISSION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_mission_table_trigger
+--     AFTER UPDATE
+--     ON mission
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('MISSION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_mission_table_trigger
+--     AFTER DELETE
+--     ON mission
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'MISSION', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for mission_translation table
+-- -- CREATE TRIGGER IF NOT EXISTS insert_mission_translation_table_trigger
+-- --     AFTER INSERT
+-- --     ON mission_translation
+-- -- BEGIN
+-- --     INSERT OR REPLACE INTO update_table (table_name, update_date)
+-- --     VALUES ('MISSION_TRANSLATION', DATETIME('now'));
+-- -- END;
+-- --
+-- -- CREATE TRIGGER IF NOT EXISTS update_mission_translation_table_trigger
+-- --     AFTER UPDATE
+-- --     ON mission_translation
+-- -- BEGIN
+-- --     INSERT OR REPLACE INTO update_table (table_name, update_date)
+-- --     VALUES ('MISSION_TRANSLATION', DATETIME('now'));
+-- -- END;
+-- --
+-- -- CREATE TRIGGER IF NOT EXISTS delete_mission_translation_table_trigger
+-- --     AFTER DELETE
+-- --     ON mission_translation
+-- -- FOR EACH ROW
+-- -- BEGIN
+-- --     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+-- --     VALUES ( old.id, 'MISSION_TRANSLATION', DATETIME('now'));
+-- -- END;
+--
+-- -- Trigger for set table
+-- CREATE TRIGGER IF NOT EXISTS insert_set_table_trigger
+--     AFTER INSERT
+--     ON card_set
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('SET', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_set_table_trigger
+--     AFTER UPDATE
+--     ON card_set
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('SET', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_set_table_trigger
+--     AFTER DELETE
+--     ON card_set
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'SET', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for set_translation table
+-- CREATE TRIGGER IF NOT EXISTS insert_set_translation_table_trigger
+--     AFTER INSERT
+--     ON card_set_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('SET_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_set_translation_table_trigger
+--     AFTER UPDATE
+--     ON card_set_translation
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('SET_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_set_translation_table_trigger
+--     AFTER DELETE
+--     ON card_set_translation
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'SET_TRANSLATION', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for skill table
+-- CREATE TRIGGER IF NOT EXISTS insert_skill_table_trigger
+--     AFTER INSERT
+--     ON skill
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('SKILL', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_skill_table_trigger
+--     AFTER UPDATE
+--     ON skill
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('SKILL', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_skill_table_trigger
+--     AFTER DELETE
+--     ON skill
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'SKILL', DATETIME('now'));
+-- END;
+--
+-- -- Trigger for weapon table
+-- CREATE TRIGGER IF NOT EXISTS insert_weapon_table_trigger
+--     AFTER INSERT
+--     ON weapon
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('WEAPON', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS update_weapon_table_trigger
+--     AFTER UPDATE
+--     ON weapon
+-- BEGIN
+--     INSERT OR REPLACE INTO update_table (table_name, update_date)
+--     VALUES ('WEAPON', DATETIME('now'));
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS delete_weapon_table_trigger
+--     AFTER DELETE
+--     ON weapon
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR REPLACE INTO deleted_row (row_id, table_name, deletion_date)
+--     VALUES ( old.id, 'WEAPON', DATETIME('now'));
+-- END;

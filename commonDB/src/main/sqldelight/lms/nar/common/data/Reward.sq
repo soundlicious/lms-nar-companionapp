@@ -1,0 +1,46 @@
+CREATE TABLE IF NOT EXISTS reward (
+    id TEXT NOT NULL PRIMARY KEY UNIQUE,
+    card_ref TEXT NOT NULL,
+    updated TEXT DEFAULT (date('now')),
+    FOREIGN KEY(card_ref) REFERENCES card(ref) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- SELECTS
+
+selectAllRewards:
+SELECT * FROM reward;
+
+selectRewardById:
+SELECT * FROM reward WHERE id = ?;
+
+selectRewardByCardRef:
+SELECT * FROM reward WHERE card_ref = ?;
+
+-- INSERTS
+
+insertReward:
+INSERT INTO reward (id, card_ref, updated)
+VALUES (?, ?, DATETIME('now'));
+
+-- UPDATE
+
+updateReward:
+UPDATE reward
+SET card_ref = ?, updated = DATETIME('now')
+WHERE id = ?;
+
+-- DELETE
+
+deleteRewardById:
+DELETE FROM reward WHERE id = ?;
+
+deleteRewardByCardRef:
+DELETE FROM reward WHERE card_ref = ?;
+
+deleteRewardBeforeDate:
+DELETE FROM reward WHERE updated < ?;
+
+deleteRewardAfterDate:
+DELETE FROM reward WHERE updated > ?;
+
+-- TRIGGERS

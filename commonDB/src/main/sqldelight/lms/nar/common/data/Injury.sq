@@ -1,0 +1,94 @@
+-- CREATE TABLE IF NOT EXISTS injury (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     card_ref TEXT NOT NULL,
+--     cost INTEGER NOT NULL,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(card_ref) REFERENCES card(ref) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS injury_translation (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     injury_id INTEGER NOT NULL,
+--     language_code TEXT NOT NULL,
+--     name TEXT NOT NULL,
+--     description TEXT NOT NULL,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(injury_id) REFERENCES injury(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- -- SELECTS
+--
+-- selectInjuryWithTranslation:
+-- SELECT i.*, COALESCE(it.name, it_default.name) AS name, COALESCE(it.description, it_default.description) AS description
+-- FROM injury i
+-- LEFT JOIN injury_translation it ON i.id = it.injury_id AND it.language_code = ?
+-- LEFT JOIN injury_translation it_default ON i.id = it_default.injury_id AND it_default.language_code = 'en_US';
+--
+-- selectInjuryWithTranslationByID:
+-- SELECT i.*, COALESCE(it.name, it_default.name) AS name, COALESCE(it.description, it_default.description) AS description
+-- FROM injury i
+-- LEFT JOIN injury_translation it ON i.id = it.injury_id AND it.language_code = ?
+-- LEFT JOIN injury_translation it_default ON i.id = it_default.injury_id AND it_default.language_code = 'en_US'
+-- WHERE i.id = ?
+-- LIMIT 1;
+--
+-- selectInjuryWithTranslationByCardRef:
+-- SELECT i.*, COALESCE(it.name, it_default.name) AS name, COALESCE(it.description, it_default.description) AS description
+-- FROM injury i
+-- LEFT JOIN injury_translation it ON i.id = it.injury_id AND it.language_code = ?
+-- LEFT JOIN injury_translation it_default ON i.id = it_default.injury_id AND it_default.language_code = 'en_US'
+-- WHERE i.card_ref = ?
+-- LIMIT 1;
+--
+-- selectAllFromInjuryTranslation:
+-- SELECT * FROM injury_translation;
+--
+-- selectInjuryTranslationById:
+-- SELECT * FROM injury_translation WHERE injury_id = ?;
+--
+-- -- INSERTS
+--
+-- insertInjury:
+-- INSERT INTO injury (card_ref, cost, updated)
+-- VALUES (?, ?, DATETIME('now'));
+--
+-- insertInjuryTranslation:
+-- INSERT INTO injury_translation (injury_id, language_code, name, description, updated)
+-- VALUES (?, ?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+--
+-- updateInjury:
+-- UPDATE injury
+-- SET card_ref = ?, cost = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- updateInjuryTranslation:
+-- UPDATE injury_translation
+-- SET name = ?, description = ?, updated = DATETIME('now')
+-- WHERE injury_id = ? AND language_code = ?;
+--
+-- -- DELETE
+--
+-- deleteInjuryById:
+-- DELETE FROM injury WHERE id = ?;
+--
+-- deleteInjuryByCardRef:
+-- DELETE FROM injury WHERE card_ref = ?;
+--
+-- deleteInjuryBeforeDate:
+-- DELETE FROM injury WHERE updated < ?;
+--
+-- deleteInjuryAfterDate:
+-- DELETE FROM injury WHERE updated > ?;
+--
+-- -- TRIGGERS
+--
+-- CREATE TRIGGER IF NOT EXISTS insert_card_on_injury_creation
+--     BEFORE INSERT
+--     ON injury
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR IGNORE INTO card(ref, card_type)
+--     VALUES (new.card_ref, 'INJURY');
+-- END;

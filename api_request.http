@@ -1,0 +1,10 @@
+###
+# Get last updated armors
+GET http://127.0.0.1:8080/api/armor?last_update=2024-04-09%2018%3A14%3A01&limit=10&offset=-1
+Accept: application/json
+###
+# Get Status
+GET http://127.0.0.1:8080/api/update_status?app_version=1.0.0
+User-Agent: Nar/1.0.0:Android/14.0.0
+Accept: application/json
+###

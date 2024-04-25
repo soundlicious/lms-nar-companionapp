@@ -1,0 +1,48 @@
+-- CREATE TABLE IF NOT EXISTS Bond (
+--     id INTEGER PRIMARY KEY,
+--     hero_id INTEGER,
+--     hero_class_id INTEGER,
+--     card_ref TEXT NOT NULL,
+--     updated TEXT NOT NULL DEFAULT (date('now')),
+--     FOREIGN KEY(hero_id) REFERENCES hero(id) ON UPDATE CASCADE ON DELETE SET NULL,
+--     FOREIGN KEY(hero_class_id) REFERENCES hero_class(id) ON UPDATE CASCADE ON DELETE SET NULL,
+--     FOREIGN KEY(card_ref) REFERENCES card(ref) ON UPDATE CASCADE ON DELETE CASCADE,
+--     CHECK (
+--         (hero_id IS NOT NULL AND hero_class_id IS NULL) OR
+--         (hero_id IS NULL AND hero_class_id IS NOT NULL)
+--     )
+-- );
+--
+-- -- SELECTS
+--
+-- -- Select all bonds
+-- selectAllBonds:
+-- SELECT * FROM Bond;
+--
+-- -- Select bond details by id
+-- selectBondById:
+-- SELECT * FROM Bond WHERE id = ?;
+--
+-- -- INSERTS
+--
+-- -- Insert into Bond table
+-- insertBond:
+-- INSERT INTO Bond (hero_id, hero_class_id, card_ref, updated)
+-- VALUES (?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+--
+-- -- Update bond details by id
+-- updateBond:
+-- UPDATE Bond
+-- SET hero_id = ?, hero_class_id = ?, card_ref = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- -- DELETE
+--
+-- -- Delete bond by id
+-- deleteBond:
+-- DELETE FROM Bond WHERE id = ?;
+--
+-- -- TRIGGERS
+--

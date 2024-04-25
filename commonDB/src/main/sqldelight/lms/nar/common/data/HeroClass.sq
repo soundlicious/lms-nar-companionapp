@@ -1,0 +1,76 @@
+-- CREATE TABLE IF NOT EXISTS hero_class_translation (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     hero_class_id INTEGER NOT NULL,
+--     language_code TEXT NOT NULL,
+--     name TEXT NOT NULL,
+--     description TEXT NOT NULL,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(hero_class_id) REFERENCES hero_class(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS hero_class (
+--     id INTEGER NOT NULL PRIMARY KEY ,
+--     hero_id INTEGER,
+--     card_ref_unlocked TEXT,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(hero_id) REFERENCES hero(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- -- SELECTS
+--
+-- selectAllHeroClasses:
+-- SELECT
+--   hc.*,
+--   COALESCE(hct_pref.name, hct_en.name) AS name,
+--   COALESCE(hct_pref.description, hct_en.description) AS description
+-- FROM hero_class hc
+-- LEFT JOIN hero_class_translation hct_pref ON hc.id = hct_pref.hero_class_id AND hct_pref.language_code = ?
+-- LEFT JOIN hero_class_translation hct_en ON hc.id = hct_en.hero_class_id AND hct_en.language_code = 'en_US';
+--
+-- selectAllHeroClassesByHeroID:
+-- SELECT
+--   hc.*,
+--   COALESCE(hct_pref.name, hct_en.name) AS name,
+--   COALESCE(hct_pref.description, hct_en.description) AS description
+-- FROM hero_class hc
+-- LEFT JOIN hero_class_translation hct_pref ON hc.id = hct_pref.hero_class_id AND hct_pref.language_code = ?
+-- LEFT JOIN hero_class_translation hct_en ON hc.id = hct_en.hero_class_id AND hct_en.language_code = 'en_US'
+-- WHERE hc.hero_id = ?;
+-- -- INSERTS
+--
+-- -- Insert into hero_class table
+-- insertHeroClass:
+-- INSERT OR REPLACE INTO hero_class (id, hero_id, card_ref_unlocked, updated)
+-- VALUES (id, ?, ?, DATETIME('now'));
+--
+-- -- Insert into hero_class_translation table
+-- insertHeroClassTranslation:
+-- INSERT OR REPLACE INTO hero_class_translation (id, hero_class_id, language_code, name, description, updated)
+-- VALUES (?, ?, ?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+--
+-- -- Update hero_class table
+-- updateHeroClass:
+-- UPDATE hero_class
+-- SET hero_id = ?, card_ref_unlocked = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- -- Update hero_class_translation table
+-- updateHeroClassTranslation:
+-- UPDATE hero_class_translation
+-- SET name = ?, description = ?, updated = DATETIME('now')
+-- WHERE hero_class_id = ? AND language_code = ?;
+--
+-- -- DELETE
+--
+-- -- Delete from hero_class table by id
+-- deleteHeroClass:
+-- DELETE FROM hero_class WHERE id = ?;
+--
+-- -- Delete from hero_class_translation table by hero_class_id
+-- deleteHeroClassTranslation:
+-- DELETE FROM hero_class_translation WHERE hero_class_id = ?;
+--
+-- -- TRIGGERS
+--

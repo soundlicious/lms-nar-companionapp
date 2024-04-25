@@ -1,0 +1,107 @@
+-- CREATE TABLE IF NOT EXISTS weapon_translation (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     name TEXT NOT NULL,
+--     weapon_id INTEGER NOT NULL,
+--     language_code TEXT NOT NULL,
+--     description TEXT,
+--     effect_on_success TEXT,
+--     traits TEXT,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(weapon_id) REFERENCES weapon(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS weapon (
+--     id INTEGER NOT NULL PRIMARY KEY UNIQUE,
+--     card_ref TEXT NOT NULL,
+--     activation_point INTEGER NOT NULL,
+--     slot_type TEXT NOT NULL,
+--     slot_weight INTEGER NOT NULL,
+--     target TEXT NOT NULL,
+--     roll_characteristic TEXT NOT NULL,
+--     bonus INTEGER NOT NULL DEFAULT 0,
+--     range_close INTEGER NOT NULL,
+--     range_far INTEGER NOT NULL,
+--     reward_id TEXT,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(card_ref) REFERENCES card(ref) ON UPDATE CASCADE ON DELETE CASCADE,
+--     FOREIGN KEY(reward_id) REFERENCES reward(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- -- SELECTS
+--
+-- selectWeapon:
+-- SELECT w.id, COALESCE(wt.name, wt_default.name), COALESCE(wt.description, wt_default.description), COALESCE(wt.effect_on_success, wt_default.effect_on_success), COALESCE(wt.traits, wt_default.traits), w.card_ref, w.activation_point, w.slot_type, w.slot_weight, w.target, w.roll_characteristic, w.bonus, w.range_close, w.range_far, w.reward_id
+-- FROM weapon w
+-- LEFT JOIN weapon_translation wt ON w.id = wt.weapon_id AND wt.language_code = ?
+-- LEFT JOIN weapon_translation wt_default ON w.id = wt_default.weapon_id AND wt_default.language_code = 'en_US';
+--
+-- selectWeaponById:
+-- SELECT w.id, COALESCE(wt.name, wt_default.name), COALESCE(wt.description, wt_default.description), COALESCE(wt.effect_on_success, wt_default.effect_on_success), COALESCE(wt.traits, wt_default.traits), w.card_ref, w.activation_point, w.slot_type, w.slot_weight, w.target, w.roll_characteristic, w.bonus, w.range_close, w.range_far, w.reward_id
+-- FROM weapon w
+-- LEFT JOIN weapon_translation wt ON w.id = wt.weapon_id AND wt.language_code = ?
+-- LEFT JOIN weapon_translation wt_default ON w.id = wt_default.weapon_id AND wt_default.language_code = 'en_US'
+-- WHERE w.id = ?;
+--
+-- selectWeaponByCardRef:
+-- SELECT w.id, COALESCE(wt.name, wt_default.name), COALESCE(wt.description, wt_default.description), COALESCE(wt.effect_on_success, wt_default.effect_on_success), COALESCE(wt.traits, wt_default.traits), w.card_ref, w.activation_point, w.slot_type, w.slot_weight, w.target, w.roll_characteristic, w.bonus, w.range_close, w.range_far, w.reward_id
+-- FROM weapon w
+-- LEFT JOIN weapon_translation wt ON w.id = wt.weapon_id AND wt.language_code = ?
+-- LEFT JOIN weapon_translation wt_default ON w.id = wt_default.weapon_id AND wt_default.language_code = 'en_US'
+-- WHERE w.card_ref = ?;
+--
+-- -- INSERTS
+--
+-- insertWeapon:
+-- INSERT INTO weapon (card_ref, activation_point, slot_type, slot_weight, target, roll_characteristic, bonus, range_close, range_far, reward_id, updated)
+-- VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, DATETIME('now'));
+--
+-- insertWeaponTranslation:
+-- INSERT INTO weapon_translation (name, weapon_id, language_code, description, effect_on_success, traits, updated)
+-- VALUES (?, ?, ?, ?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+--
+-- updateWeapon:
+-- UPDATE weapon
+-- SET card_ref = ?, activation_point = ?, slot_type = ?, slot_weight = ?, target = ?, roll_characteristic = ?, bonus = ?, range_close = ?, range_far = ?, reward_id = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- updateWeaponTranslation:
+-- UPDATE weapon_translation
+-- SET name = ?, description = ?, effect_on_success = ?, traits = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- -- DELETE
+--
+-- deleteWeaponById:
+-- DELETE FROM weapon WHERE id = ?;
+--
+-- deleteWeaponByCardRef:
+-- DELETE FROM weapon WHERE card_ref = ?;
+--
+-- deleteWeaponBeforeDate:
+-- DELETE FROM weapon WHERE updated < ?;
+--
+-- deleteWeaponAfterDate:
+-- DELETE FROM weapon WHERE updated > ?;
+--
+-- -- TRIGGERS
+--
+-- CREATE TRIGGER IF NOT EXISTS insert_card_on_weapon_creation
+--     BEFORE INSERT
+--     ON weapon
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR IGNORE INTO card(ref, card_type)
+--     VALUES (new.card_ref, 'WEAPON');
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS insert_reward_on_weapon_creation
+--     BEFORE INSERT
+--     ON weapon
+--     WHEN new.reward_id IS NOT NULL
+-- BEGIN
+--     INSERT OR IGNORE INTO reward(id, card_ref)
+--     VALUES (new.reward_id, new.card_ref);
+-- END;
+--

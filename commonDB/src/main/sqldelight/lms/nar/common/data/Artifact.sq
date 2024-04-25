@@ -1,0 +1,102 @@
+-- CREATE TABLE IF NOT EXISTS artifact_translation(
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     artifact_id INTEGER NOT NULL,
+--     name TEXT NOT NULL,
+--     description TEXT,
+--     effect_on_success TEXT,
+--     language_code TEXT NOT NULL,
+--     updated TEXT NOT NULL DEFAULT (date('now')),
+--     FOREIGN KEY(artifact_id) REFERENCES artifact(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+-- CREATE TABLE IF NOT EXISTS artifact (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     card_ref TEXT NOT NULL,
+--     reward_id INTEGER,
+--     slot_type TEXT NOT NULL,
+--     slot_weight INTEGER NOT NULL,
+--     activation_point INTEGER,
+--     target TEXT,
+--     range_close INTEGER,
+--     range_far INTEGER,
+--     roll_characteristic TEXT,
+--     bonus INTEGER,
+--     traits TEXT,
+--     effects_on_success TEXT,
+--     updated TEXT NOT NULL DEFAULT (date('now')),
+--     FOREIGN KEY(reward_id) REFERENCES reward(id)
+-- );
+--
+-- -- SELECTS
+--
+-- -- Select all artifacts with their translations by joining artifact and artifact_translation tables
+-- selectAllArtifacts:
+-- SELECT a.id, a.card_ref, a.reward_id, a.slot_type, a.slot_weight, a.activation_point, a.target, a.range_close, a.range_far, a.roll_characteristic, a.bonus, a.traits, a.effects_on_success,
+--        COALESCE(at.name, at_default.name) AS translated_name, COALESCE(at.description, at_default.description) AS translated_description, COALESCE(at.effect_on_success, at_default.effect_on_success) AS translated_effect_on_success
+-- FROM artifact a
+-- LEFT JOIN artifact_translation at ON a.id = at.artifact_id AND at.language_code = ?
+-- LEFT JOIN artifact_translation at_default ON a.id = at_default.artifact_id AND at_default.language_code = 'en_US';
+--
+-- -- Select artifact details by id with its translation
+-- selectAllArtifactById:
+-- SELECT a.id, a.card_ref, a.reward_id, a.slot_type, a.slot_weight, a.activation_point, a.target, a.range_close, a.range_far, a.roll_characteristic, a.bonus, a.traits, a.effects_on_success,
+--        COALESCE(at.name, at_default.name) AS translated_name, COALESCE(at.description, at_default.description) AS translated_description, COALESCE(at.effect_on_success, at_default.effect_on_success) AS translated_effect_on_success
+-- FROM artifact a
+-- LEFT JOIN artifact_translation at ON a.id = at.artifact_id AND at.language_code = ?
+-- LEFT JOIN artifact_translation at_default ON a.id = at_default.artifact_id AND at_default.language_code = 'en_US'
+-- WHERE a.id = ?;
+--
+-- -- INSERTS
+--
+-- -- Insert into artifact table
+-- insertArtifact:
+-- INSERT OR REPLACE INTO artifact (id, card_ref, reward_id, slot_type, slot_weight, activation_point, target, range_close, range_far, roll_characteristic, bonus, traits, effects_on_success, updated)
+-- VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, DATETIME('now'));
+--
+-- -- Insert into artifact_translation table
+-- insertArtifactTranslation:
+-- INSERT OR REPLACE INTO artifact_translation (id, artifact_id, language_code, name, description, effect_on_success, updated)
+-- VALUES (?, ?, ?, ?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+--
+-- -- Update artifact details by id
+-- updateArtifact:
+-- UPDATE artifact
+-- SET card_ref = ?, reward_id = ?, slot_type = ?, slot_weight = ?, activation_point = ?, target = ?, range_close = ?, range_far = ?, roll_characteristic = ?, bonus = ?, traits = ?, effects_on_success = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- -- Update artifact_translation details by artifact_id
+-- updateArtifactTranslation:
+-- UPDATE artifact_translation
+-- SET name = ?, description = ?, effect_on_success = ?, updated = DATETIME('now')
+-- WHERE artifact_id = ? AND language_code = ?;
+--
+-- -- DELETE
+--
+-- -- Delete artifact by id
+-- deleteArtifactWithId:
+-- DELETE FROM artifact WHERE id = ?;
+--
+-- -- Delete artifact_translation by artifact_id
+-- deleteArtifactTranslationWithId:
+-- DELETE FROM artifact_translation WHERE artifact_id = ?;
+--
+-- -- TRIGGERS
+--
+-- CREATE TRIGGER IF NOT EXISTS insert_card_on_artifact_creation
+--     BEFORE INSERT
+--         ON artifact
+-- FOR EACH ROW
+-- BEGIN
+--     INSERT OR IGNORE INTO card(ref, card_type)
+--     VALUES (new.card_ref, 'ARTIFACT');
+-- END;
+--
+-- CREATE TRIGGER IF NOT EXISTS insert_reward_on_artifact_creation
+--     BEFORE INSERT
+--         ON artifact
+--     WHEN new.reward_id IS NOT NULL
+-- BEGIN
+--     INSERT OR IGNORE INTO reward(id, card_ref)
+--     VALUES (new.reward_id, new.card_ref);
+-- END;

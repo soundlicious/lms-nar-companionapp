@@ -1,0 +1,99 @@
+-- CREATE TABLE IF NOT EXISTS city_translation (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     city_id INTEGER NOT NULL,
+--     language_code TEXT NOT NULL,
+--     name TEXT NOT NULL,
+--     updated TEXT NOT NULL DEFAULT (date('now')),
+--     FOREIGN KEY(city_id) REFERENCES city(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS city (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     type TEXT NOT NULL -- VILLAGE/TOWN
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS city_distance (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     from_city_id INTEGER NOT NULL,
+--     to_city_id INTEGER NOT NULL,
+--     distance INTEGER NOT NULL,
+--     FOREIGN KEY(from_city_id) REFERENCES city(id) ON UPDATE CASCADE ON DELETE CASCADE,
+--     FOREIGN KEY(to_city_id) REFERENCES city(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- -- City Translation Inserts
+-- insertCityTranslation:
+-- INSERT INTO city_translation (id, city_id, language_code, name) VALUES ?;
+--
+-- -- City Inserts
+-- insertCity:
+-- INSERT INTO city (id, type) VALUES ?;
+--
+-- -- City Distance Inserts
+-- insertCityDistance:
+-- INSERT INTO city_distance (id, from_city_id, to_city_id, distance) VALUES ?;
+--
+-- -- City Translation Updates
+-- updateCityTranslation:
+-- UPDATE city_translation
+-- SET city_id = ?, language_code = ?, name = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- -- City Updates
+-- updateCity:
+-- UPDATE city
+-- SET type = ?
+-- WHERE id = ?;
+--
+-- -- City Distance Updates
+-- updateCityDistance:
+-- UPDATE city_distance
+-- SET distance = ?
+-- WHERE from_city_id = ? AND to_city_id = ?;
+--
+-- -- City Translation Deletes
+-- deleteFromCityTranslation:
+-- DELETE FROM city_translation WHERE id = ?;
+--
+-- -- City Deletes
+-- deleteFromCity:
+-- DELETE FROM city WHERE id = ?;
+--
+-- -- Selects for City Translation
+-- selectCityTranslationByCityId:
+-- SELECT
+--   COALESCE(
+--     (SELECT name FROM city_translation WHERE city_id = ? AND language_code = ?),
+--     (SELECT name FROM city_translation WHERE city_id = ? AND language_code = 'en_US')
+--   ) AS name
+-- FROM city_translation
+-- WHERE city_id = ?
+-- LIMIT 1;
+--
+-- selectCityTranslation:
+-- SELECT
+--   COALESCE(
+--     (SELECT name FROM city_translation WHERE city_id = ? AND language_code = ?),
+--     (SELECT name FROM city_translation WHERE city_id = ? AND language_code = 'en_US')
+--   ) AS name
+-- FROM city_translation;
+--
+-- -- Selects for City
+-- selectAllFromCity:
+-- SELECT * FROM city;
+--
+-- selectCityById:
+-- SELECT * FROM city WHERE id = ?;
+--
+-- -- Selects for City Distance
+-- selectAllFromCityDistance:
+-- SELECT * FROM city_distance;
+--
+-- selectCityDistanceByFromCityId:
+-- SELECT * FROM city_distance WHERE from_city_id = ?;
+--
+-- selectCityDistanceByToCityId:
+-- SELECT * FROM city_distance WHERE to_city_id = ?;
+--
+-- -- TRIGGERS
+--

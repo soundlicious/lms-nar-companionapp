@@ -1,0 +1,72 @@
+-- CREATE TABLE IF NOT EXISTS hero_translation (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     hero_id INTEGER NOT NULL,
+--     language_code TEXT NOT NULL,
+--     name TEXT NOT NULL,
+--     description TEXT NOT NULL,
+--     updated TEXT DEFAULT (date('now')),
+--     FOREIGN KEY(hero_id) REFERENCES hero(id) ON UPDATE CASCADE ON DELETE CASCADE
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS hero (
+--     id INTEGER NOT NULL PRIMARY KEY,
+--     swiftness INTEGER NOT NULL,
+--     dexterity INTEGER NOT NULL,
+--     physique INTEGER NOT NULL,
+--     health INTEGER NOT NULL,
+--     mind INTEGER NOT NULL,
+--     updated TEXT DEFAULT (date('now'))
+-- );
+--
+-- -- SELECTS
+--
+-- selectHero:
+-- SELECT h.id, COALESCE(ht.name, ht_default.name), COALESCE(ht.description, ht_default.description), h.swiftness, h.dexterity, h.physique, h.health, h.mind
+-- FROM hero h
+-- LEFT JOIN hero_translation ht ON h.id = ht.hero_id AND ht.language_code = ?
+-- LEFT JOIN hero_translation ht_default ON h.id = ht_default.hero_id AND ht_default.language_code = 'en_US';
+--
+-- selectHeroById:
+-- SELECT h.id, COALESCE(ht.name, ht_default.name), COALESCE(ht.description, ht_default.description), h.swiftness, h.dexterity, h.physique, h.health, h.mind
+-- FROM hero h
+-- LEFT JOIN hero_translation ht ON h.id = ht.hero_id AND ht.language_code = ?
+-- LEFT JOIN hero_translation ht_default ON h.id = ht_default.hero_id AND ht_default.language_code = 'en_US'
+-- WHERE h.id = ?;
+--
+-- selectAllFromHeroTranslation:
+-- SELECT * FROM hero_translation;
+--
+-- selectHeroTranslationById:
+-- SELECT * FROM hero_translation WHERE hero_id = ?;
+--
+-- -- INSERTS
+--
+-- insertHero:
+-- INSERT OR REPLACE INTO hero (id, swiftness, dexterity, physique, health, mind)
+-- VALUES (?, ?, ?, ?, ?, ?);
+--
+-- insertHeroTranslation:
+-- INSERT OR REPLACE INTO hero_translation (id, hero_id, language_code, name, description, updated)
+-- VALUES (?, ?, ?, ?, ?, DATETIME('now'));
+--
+-- -- UPDATE
+--
+-- updateHero:
+-- UPDATE hero
+-- SET swiftness = ?, dexterity = ?, physique = ?, health = ?, mind = ?, updated = DATETIME('now')
+-- WHERE id = ?;
+--
+-- updateHeroTranslation:
+-- UPDATE hero_translation
+-- SET name = ?, description = ?, updated = DATETIME('now')
+-- WHERE hero_id = ? AND language_code = ?;
+--
+-- -- DELETE
+--
+-- deleteHeroById:
+-- DELETE FROM hero WHERE id = ?;
+--
+-- deleteHeroTranslationById:
+-- DELETE FROM hero_translation WHERE hero_id = ?;
+--
+-- -- TRIGGERS
