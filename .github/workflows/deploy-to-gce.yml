@@ -45,10 +45,10 @@ jobs:
           ./gradlew :server:buildFatJar --no-daemon
 
       - name: Stop Ktor application
-        run: gcloud compute ssh $GCE_INSTANCE_NAME --command "sudo systemctl stop ktor-app"
+        run: gcloud compute ssh $GCE_INSTANCE_NAME --zone=us-central1-c --command "sudo systemctl stop ktor-app"
 
       - name: Deploy to GCE
         run: |
           gcloud compute scp build/libs/narApi.jar $GCE_INSTANCE_NAME:~/
           gcloud compute scp lmsnar.db $GCE_INSTANCE_NAME:~/
-          gcloud compute ssh $GCE_INSTANCE_NAME --command "sudo systemctl start ktor-app"
+          gcloud compute ssh $GCE_INSTANCE_NAME --zone=us-central1-c --command "sudo systemctl start ktor-app"
