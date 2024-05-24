@@ -36,15 +36,8 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: save gcp credentials
-        run: |
-          echo "${{ secrets.GCP_CREDENTIALS }}" > gcp-credentials.json
-          touch ~/.boto
-          echo "[Credentials]\ngs_service_key_file=/gcp-credentials.json" >> ~/.boto
-          export $(xargs < .env)
-
       - name: Download last SQLite file from GCS
-        run: gsutil cp gs://${{ secrets.GCP_BUCKET }}/lmsnar.db lmsnar.db
+        run: gcloud storage cp gs://${{ secrets.GCP_BUCKET }}/lmsnar.db lmsnar.db
 
       - name: Build with Gradle
         run: |
