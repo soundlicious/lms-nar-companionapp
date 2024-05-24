@@ -31,23 +31,23 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Build with Gradle
-        run: |
-          chmod +x ./gradlew
-          ./gradlew :server:buildFatJar --no-daemon
-
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: login to GCS
+      - name: save gcp credentials
         run: |
-          gcloud auth login
-          gcloud config set pass_credentials_to_gsutil true
+          echo "${{ secrets.GCP_CREDENTIALS }}" > gcp-credentials.json
+          echo "[Credentials]\ngs_service_key_file=/gcp-credentials.json"
 
       - name: Download last SQLite file from GCS
         run: gsutil cp gs://${{ secrets.GCP_BUCKET }}/lmsnar.db lmsnar.db
+
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :server:buildFatJar --no-daemon
 
       - name: Stop Ktor application
         run: gcloud compute ssh $GCE_INSTANCE_NAME --command "sudo systemctl stop ktor-app"
