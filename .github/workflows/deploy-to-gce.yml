@@ -31,14 +31,16 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew :server:buildFatJar --no-daemon
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :server:buildFatJar --no-daemon
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: Download SQLite to GCS
+      - name: Download last SQLite file from GCS
         run: gsutil cp gs://${{ secrets.GCP_BUCKET }}/lmsnar.db lmsnar.db
 
       - name: Stop Ktor application
