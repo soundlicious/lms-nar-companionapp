@@ -1,11 +1,8 @@
 package lms.nar.companion.api.di
 
 import app.cash.sqldelight.driver.jdbc.JdbcDriver
-import app.cash.sqldelight.driver.jdbc.asJdbcDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.zaxxer.hikari.HikariDataSource
 import lms.nar.analytic.Logger
-import lms.nar.companion.api.model.DBConfig
 import lms.nar.data.CommonDB
 import lms.nar.data.repository.cards.equipment.ArmorRepository
 import lms.nar.data.repository.cards.equipment.CommonArmorRepository
@@ -14,27 +11,18 @@ import lms.nar.backend.data.Database as BackendDB
 import lms.nar.data.repository.cards.equipment.EquipmentRepository
 import lms.nar.data.repository.cards.equipment.FormulaeRepository
 import org.koin.dsl.module
+import java.io.File
 
 val dbModule = module(createdAtStart = true) {
-    single<HikariDataSource> {
-        val dbConfig = get<DBConfig>()
-        HikariDataSource()
-            .apply {
-                jdbcUrl = dbConfig.url
-                driverClassName = dbConfig.driverClassName
-                username = dbConfig.username
-                password = dbConfig.password
-                connection
-            }
-    }
     single<JdbcDriver> {
-//        get<HikariDataSource>().asJdbcDriver()
-        JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+        JdbcSqliteDriver(url = "jdbc:sqlite:lmsnar.db"/*JdbcSqliteDriver.IN_MEMORY*/)
     }
 
     single<BackendDB> {
         val driver = get<JdbcDriver>()
-        BackendDB.Schema.create(driver)
+        if (!File("lmsnar.db").exists()) {
+            BackendDB.Schema.create(driver)
+        }
         BackendDB(driver)
     }
 

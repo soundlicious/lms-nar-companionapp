@@ -13,12 +13,29 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["development"] ?: "false"}")
 }
 
+ktor {
+    fatJar {
+        archiveFileName.set("narApi.jar")
+    }
+    docker {
+        jreVersion.set(JavaVersion.VERSION_17)
+        localImageName.set("lms-nar-companion-api")
+        imageTag.set("0.0.1")
+        portMappings.set(listOf(
+            io.ktor.plugin.features.DockerPortMapping(
+                80,
+                8080,
+                io.ktor.plugin.features.DockerPortMappingProtocol.TCP
+            )
+        ))
+    }
+}
+
 dependencies {
     implementation(project(":backendDB"))
     implementation(project(":commonDB"))
     implementation(project(":core"))
     implementation(project(":shared"))
-    implementation(libs.sqldelight.primitive.adapters)
     implementation(libs.logback)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
@@ -27,13 +44,10 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.ktor)
     implementation(libs.sqldelight.driver.sqlite)
-    implementation(libs.sqldelight.driver.jdbc)
     implementation(libs.sqldelight.coroutine)
     implementation(libs.ktor.server.content.negociation)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.server.cors.jvm)
     implementation(libs.ktor.server.logging)
     implementation(libs.ktor.swagger.ui)
-    implementation(libs.mysql.connector)
-    implementation(libs.hikari.cp)
 }

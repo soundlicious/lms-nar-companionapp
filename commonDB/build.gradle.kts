@@ -18,7 +18,6 @@ dependencies {
     implementation(platform(libs.arrow.bom))
     implementation(libs.arrow.core)
     implementation(libs.arrow.fx.coroutines)
-    implementation(libs.sqldelight.primitive.adapters)
     implementation(libs.sqldelight.coroutine)
     implementation(libs.kotlin.serialization)
 }

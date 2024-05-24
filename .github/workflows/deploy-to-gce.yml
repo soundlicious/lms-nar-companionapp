@@ -1,0 +1,51 @@
+name: Deploy to GCE
+
+on:
+  push:
+    branches:
+      - wip-server
+    paths:
+      - 'server/**'
+      - 'backendDB/**'
+      - 'commonDB/**'
+      - 'coreDB/**'
+      - 'build.gradle.kts'
+
+env:
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GCP_REGION: 'us-central1-c'
+  GCE_INSTANCE_NAME: 'lms-nar-api-vm'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        run: ./gradlew :server:buildFatJar --no-daemon
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Download SQLite to GCS
+        run: gsutil cp gs://${{ secrets.GCP_BUCKET }}/lmsnar.db lmsnar.db
+
+      - name: Stop Ktor application
+        run: gcloud compute ssh $GCE_INSTANCE_NAME --command "sudo systemctl stop ktor-app"
+
+      - name: Deploy to GCE
+        run: |
+          gcloud compute scp build/libs/narApi.jar $GCE_INSTANCE_NAME:~/
+          gcloud compute scp lmsnar.db $GCE_INSTANCE_NAME:~/
+          gcloud compute ssh $GCE_INSTANCE_NAME --command "sudo systemctl start ktor-app"
