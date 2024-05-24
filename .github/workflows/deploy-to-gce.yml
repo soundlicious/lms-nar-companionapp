@@ -5,6 +5,7 @@ on:
     branches:
       - wip-server
     paths:
+      - '**'
       - 'server/**'
       - 'backendDB/**'
       - 'commonDB/**'
