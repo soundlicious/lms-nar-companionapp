@@ -41,6 +41,11 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
+      - name: login to GCS
+        run: |
+          gcloud auth login
+          gcloud config set pass_credentials_to_gsutil true
+
       - name: Download last SQLite file from GCS
         run: gsutil cp gs://${{ secrets.GCP_BUCKET }}/lmsnar.db lmsnar.db
 
