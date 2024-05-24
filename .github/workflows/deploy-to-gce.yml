@@ -41,6 +41,7 @@ jobs:
           echo "${{ secrets.GCP_CREDENTIALS }}" > gcp-credentials.json
           touch ~/.boto
           echo "[Credentials]\ngs_service_key_file=/gcp-credentials.json" >> ~/.boto
+          export $(xargs < .env)
 
       - name: Download last SQLite file from GCS
         run: gsutil cp gs://${{ secrets.GCP_BUCKET }}/lmsnar.db lmsnar.db
