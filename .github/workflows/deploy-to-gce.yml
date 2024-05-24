@@ -49,6 +49,6 @@ jobs:
 
       - name: Deploy to GCE
         run: |
-          gcloud compute scp build/libs/narApi.jar $GCE_INSTANCE_NAME:~/
-          gcloud compute scp lmsnar.db $GCE_INSTANCE_NAME:~/
+          gcloud compute scp build/libs/narApi.jar $GCE_INSTANCE_NAME:~/ --zone=us-central1-c
+          gcloud compute scp lmsnar.db $GCE_INSTANCE_NAME:~/ --zone=us-central1-c
           gcloud compute ssh $GCE_INSTANCE_NAME --zone=us-central1-c --command "sudo systemctl start ktor-app"
